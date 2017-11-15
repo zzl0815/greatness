@@ -1,0 +1,69 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8  
+  
+spring:
+  datasource:
+           url: jdbc:mysql://localhost:3306/vip?characterEncoding=UTF-8
+           username: root
+           password: root
+           driver-class-name: com.mysql.jdbc.Driver
+           type: com.alibaba.druid.pool.DruidDataSource
+           initialSize: 5 
+           minIdle: 5
+           maxActive: 20
+           maxWait: 60000
+           #配置间隔多久才进行一次配置，检测需要关闭的空闲链接,单位是毫秒
+           timeBetweenEvictionRunsMillis: 60000
+           #配置一个连接在连接池中最小生存时间
+           minEvictableIdleTimeMillis: 30000
+           validationQuery: SELECT 1 FROM v_user
+           testWhileIdle: true
+           testOnBorrow: false
+           testOnReturn: false
+           #打开PSCache,并且指定每个连接的PSCache其大小
+           #PSCache = PreparedStatementCache 检查SQL语句和其内容计算KEY值,对比key值   其实就是一级缓存
+           poolPreparedStatements: true
+           maxpoolPreparedStatementPerConnectionSize: 20
+           #配置监控统计拦截的filters,去掉后监控界面Sql将无法统计,'wallet'用于防火墙
+           filters: stat,wall,log4j
+           connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+           
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  
+  redis:
+    database: 0
+    host: localhost
+    password:
+    port: 6379
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 10
+      max-wait: -1     
+   
+             
+  thymeleaf :
+      cache: false
+      prefix: classpath:/templates
+      suffix: .html
+      mode: HTML5
+      encoding: UTF-8
+      content-type: text/html    
+      
+  mail : 
+      host: smtp.qq.com
+      username: zzlu0815@qq.com
+      password: bwteikizjesxbgai
+      properties.mail.smtp.auth: true
+      properties.mail.smtp.starttls.enable: true 
+      properties.mail.smtp.starttls.required: true 

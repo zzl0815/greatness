@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+<script type="text/javascript" src="/jquery/jquery-3.2.0.js"></script>     
+<script type="text/javascript" src="/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/jquery/jquery.form.js"></script> 
+<script type="text/javascript" src="/js/article.js"></script>            
+</head>
+<body>
+	<div  style="">
+	<div th:if="${TitleById!=null}">
+ 	id:<div  th:text="${TitleById.id}"  id="titleid"></div>
+		标题:<div  th:text="${TitleById.title}"></div>
+		摘要:<div  th:text="${TitleById.titleAbstract}"></div>
+		<!-- 内容:<div  th:text="${TitleById.content}"></div> -->
+		创建时间:<div  th:text="${TitleById.createDate}"></div>
+		阅读人数:<div  th:text="${TitleById.readPerson}"></div>
+	<!-- 	类型Id:<div  th:text="${TitleById.type.id}"></div> -->
+		类型名称:<div  th:text="${TitleById.type.typeName}"></div>
+	<!-- 	用户ID:<div  th:text="${TitleById.type.user.id}"></div> -->
+	<!-- 	用户名称:<div  th:text="${TitleById.type.user.userName}"></div> -->
+		Vip等级:<div  th:text="${TitleById.type.user.vipClass}"></div>
+		积分:<div  th:text="${TitleById.type.user.integral}"></div>
+		头像<img  th:attr="src=${TitleById.type.user.img}" />
+		<div  th:text="${TitleById.type.user.nickname}"></div>
+	</div>
+	</div>
+			<!--如果该用户是VIP1  就可以关注该用户,实际是加好友功能.-->
+			<!-- 互相关注后即可聊天,VIP2可强制聊天-->
+		<div th:if="${session.User}!=null">
+		<div th:if="${session.User.vipClass}>=1">
+		<a th:href="@{'/friend/saveRelation.do?id='+${TitleById.type.user.id}}">关注</a>
+		</div>
+		</div>
+	<div>  
+		<br/><br/>
+		<div   th:if="${comment!=null}" >
+		<div  id="commentlistbefore"></div>
+		<div th:each="comment,commentStat :${comment}">
+		<!-- 	id:<div  th:text="${comment.id}"></div> -->
+			用户昵称:<div  th:text="${comment.user.nickname}"></div>
+			Ip地址:<div  th:text="${comment.ip}"></div>
+			评论内容:<div  th:text="${comment.comment}"></div>
+			创建时间:<div  th:text="${comment.createDate}"></div>
+			好评:<input type="button" th:attr="value=${comment.isApproal}"  th:onclick="'javascript:IsApproal('+${comment.id}+','+${comment.isApproal}+',this)'"  id="isApproal"/>
+			差评:<input type="button" th:attr="value=${comment.noApproal}"  id="noApproal" th:onclick="'javascript:NoApproal('+${comment.id}+','+${comment.noApproal}+',this)'"  />
+			</div>
+		</div>
+	</div>
+	<div >
+		<form action="../index/saveComment.do" method="get"  id="submitComment">
+		评论内容:<input type="text"  name="comment"/>
+		<input type="hidden"  name="titleId" id="commenttitleId" />
+		<input type="button" value="评论"  onclick="submitComment()"/>
+	</form>  
+	</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" ></meta>
+<title>Insert title here</title>
+<script type="text/javascript" src="/jquery/jquery-3.2.0.js"></script>     
+<script type="text/javascript" src="/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/jquery/jquery.form.js"></script>         
+</head>
+<body >	
+		<div ><form  action="/login/register.do"  method="POST"   id="InfoForm">
+		账号:<input type="text" name="userName"  placeholder="请输入你的邮箱"  id="EmailAddress"/><br/>
+		昵称:<input type="text" name="nickname"  placeholder="请输入你的昵称"  id="nickname"/><br/>
+		密码:<input type="password" name="password" id="password"/><br/>
+		身份证:<input type="text"  name="identifiesCard" id="identifiesCard"/><br/>
+		图片路径:<input type="hidden" name="img"  id="str_img" /><br/>
+			</form>
+			验证码<input type="text"   name="checkCode" id="checkCode"/> 
+			<input type="button"  id="sendEmail"  value="发送邮件验证码" />
+		<!-- 上传图片至服务器，并回显-->
+		<img id="showpic"  src=""  style="width:120px ; height:1	00px"/>
+		  <form action ="/uploadImg.do"  method="post"  enctype="multipart/form-data"   id = "imgform" >
+		    <input type="file" name="file" id="img" onchange="uploadPic()"/> 
+		    </form> 
+		   
+		    </div>
+		    <input type="button"  id="submitInfo" value="注册"/>
+</body>
+<script type="text/javascript">  
+//发送邮箱
+var checkCode;
+	$("#sendEmail").click(function(){
+		if(!checkEmailAddress()){
+			alert("邮箱错误");
+			return false ;
+		}
+		var EmailAddress= $("#EmailAddress").val();
+		$.ajax({
+			url:"../login/sendEmail.do",
+			type:"POST",
+			data:{
+				"EmailAddress" :EmailAddress,
+			},
+			success:function(result){
+				checkCode=result;
+			}
+		})
+	});
+
+//提交用户信息
+	$("#submitInfo").click(function(){
+		var IsEmailAddress=checkEmailAddress();
+		if(IsEmailAddress){
+			if(checkAll()){
+				  $("#InfoForm").ajaxSubmit(function (data) {
+				        alert(data);
+				        if(data=="注册成功"){
+				        	window.location.href="../index/index.html";
+				        }
+				    });
+			}
+		}
+		return true ; 
+	});
+//检查验证码 身份证 密码
+	function checkAll(){
+		var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+	 var password=$("#password").val();
+	 var identifiesCard=$("#identifiesCard").val();
+	if(	checkCode = $("#checkCode").val()){
+		if($.trim(password)!=""){
+			if(reg.test(identifiesCard)){
+				return true ; 
+			}
+			return false ; 
+		}
+		return false ; 
+	}
+}
+	//验证邮箱
+	function checkEmailAddress(){
+		  var email = $.trim($('#EmailAddress').val());
+		   var isEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;  
+		   if(email == ""){  
+	           alert("邮箱不能为空");
+	       	return false ;
+	     }  
+		  else if(!(isEmail.test(email))){  
+		  	alert("邮箱格式错误"); 
+		  	return false ;
+		  }else{
+			  return true ; 
+		  }  
+	}
+	
+//图片上传
+function uploadPic() { 
+    // 上传设置  
+    var options = {  
+            // 规定把请求发送到那个URL  
+            url: "../uploadImg.do",  
+            // 请求方式  
+            type: "post",  
+            // 服务器响应的数据类型  
+            dataType: "text",  
+            // 请求成功时执行的回调函数  
+            success: function(data) {  
+            	$("#showpic").attr("src",data);
+            	$("#str_img").attr("value",data);
+            }  
+    };  
+    $("#imgform").ajaxSubmit(options);  
+}  
+
+
+
+</script>  
+</html>

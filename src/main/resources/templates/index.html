@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" ></meta>
+<title>Insert title here</title>
+<script type="text/javascript" src="/jquery/jquery-3.2.0.js"></script>     
+<script type="text/javascript" src="/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/jquery/jquery.form.js"></script>   
+<script type="text/javascript" src="/js/index.js"></script>         
+</head>
+	<style>
+	a{text-decoration:none}
+	a:visited {color:#000000}	
+</style>
+<body>
+	<div th:if="${total!=null}">
+	<div>感谢你打赏<div  th:text="${total}">
+	元给作者 
+	</div></div>
+	</div>
+		<div th:if="${session.User}!=null"> 
+		<div th:text="${session.User.nickname} "> </div>
+		<div ><a  href="../"></a></div>
+		</div>
+		<div th:if="${session.User}==null"> 
+		<form action="/login/login.do" method="POST" id="loginform">
+				账号:<input type="text" name="userName"   placeholder="请输入您的邮箱"/><br/>
+				密码:<input type="password" name="password"/><br/>
+				<input type="submit"  />  
+			</form>
+			<a  href="/register.html">注册</a>
+			<a  href="/first/first.html">一级会员</a><!--可以在session中存储一个等级系统-->
+			<a href="/second/second.html">二级会员</a>
+			</div>
+			<div  id ="article" >
+			</div>
+			<div >
+				支付宝入口:
+			<form action="/pay/alipay.do" id="alipay">
+				奖赏作者金额:<input  type="text"   name="total"  />
+				<input  type="submit"  value="奖赏"/>
+			</form>
+			</div>
+	
+</body>
+</html>

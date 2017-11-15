@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" ></meta>
+<title>Insert title here</title>
+<script type="text/javascript" src="/jquery/jquery-3.2.0.js"></script>     
+<script type="text/javascript" src="/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/jquery/jquery.form.js"></script>   
+<script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="/js/publish.js"></script>
+<style type="text/css">     
+	.hidden{
+		display: none;
+	}
+</style>  
+</head>
+<body>
+<form  action="../title/publishTopic.do"  method="post" >
+	标题:<input type="text"   name="title"/><br/>
+	分类:<select name="titleTypeId"  id="selecttitleType">
+	</select>
+	<div class="hidden" id="hidden">
+	<input type="text"  placeholder="请输入新的类型"  id="addtitleName"/>
+	</div>
+	<input type="button"   value="增加"  onclick="addTitleType(this);" />
+	<input type="button"   value="增加"  onclick="realaddTitleType();" class="hidden"/>
+	<br/>
+	<textarea rows="2" cols="30" placeholder="请输入该文章摘要"  name="titleAbstract"></textarea>
+    <script id="container" name="content" type="text/plain">
+      这里写你的初始化内容
+    </script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('container');
+    </script>
+    <input type="submit"  value="上传"/>
+    </form>
+</body>
+</html>
