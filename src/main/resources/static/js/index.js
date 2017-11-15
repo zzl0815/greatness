@@ -25,10 +25,25 @@ $(function(){
 			$("#article").append(html);
 		}
 	})
+	//用于提醒是否有人关注,类似于微信QQ等的好友加你提醒功能,该功能用reids完成
+	$.ajax({
+		url:"../index/Remindersfriends.do",
+		data:{
+		},
+		dataType:"json",
+		type:"GET",
+		sync:false,
+		success:function(data){
+			alert(data.length);
+			$("#RemindersPersonNumber").text(data.length);
+			var id = $("#userId").val();
+			//如果是自己就给他按钮  如果不是就等待验证,
+			//改变数据库的内容
+		}
+	})
 })
 
 function submitpay(){
-	alert("Dsd");
 		$("#submitpay").ajaxSubmit(function (data) {
 			alert(data);
 		});

@@ -15,6 +15,8 @@ public class BaseController {
 	public static ObjectMapper getInstance(){
 		return mapper;
 	}
+	//mapper虽然用了单列模式，但是最好新建一个
+	//因为项目需要改动太多 所以不改
 	public BaseController() {
 		viewName="";
 		view=new ModelAndView();

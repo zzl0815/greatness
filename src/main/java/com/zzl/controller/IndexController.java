@@ -1,6 +1,7 @@
 package com.zzl.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +24,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zzl.bean.Comment;
 import com.zzl.bean.Title;
 import com.zzl.bean.User;
+import com.zzl.bean.UserRelation;
 import com.zzl.bean.common.Common;
+import com.zzl.redis.UserRelationRedis;
 import com.zzl.service.CommentService;
+import com.zzl.service.UserRelationService;
 import com.zzl.service.impl.TitleServiceImpl;
 import com.zzl.service.impl.UserSerivceImpl;
 
@@ -37,6 +41,10 @@ public class IndexController extends BaseController{
 	UserSerivceImpl userService;
 	@Autowired
 	CommentService commentSerivce;
+	@Autowired
+	UserRelationRedis userRelationRedis;  //错了  没有经过service层
+	@Autowired
+	UserRelationService userRelationService ;
 	@RequestMapping(value="queryTitle.do",method=RequestMethod.GET)
 	public String queryTitle(
 			@RequestParam(value="start",defaultValue="0")Integer start,
@@ -125,6 +133,30 @@ public class IndexController extends BaseController{
 		com.setId(Id);
 		commentSerivce.updateNsApproal(com);
 		return getInstance().writeValueAsString(com);
+	}
+	@RequestMapping(value="/Remindersfriends.do",method=RequestMethod.GET)
+	public String Remindersfriends(
+			HttpServletRequest request
+			) throws JsonProcessingException{
+		User user =(User)request.getSession().getAttribute("User");
+		if(user!=null){
+			List<UserRelation> list =userRelationRedis.queryUserRelations(user.getId()+"");
+			if(list!=null){
+				System.out.println(getInstance().writeValueAsString(list));
+				return getInstance().writeValueAsString(list);
+			}
+		}
+		return getInstance().writeValueAsString("0");
+	}
+	@RequestMapping(value="/delRemindersfriends.do",method=RequestMethod.GET)
+	public String delRemindersfriends(
+			HttpServletRequest request) throws JsonProcessingException{
+		User user=((User)request.getSession().getAttribute("User"));
+		userRelationRedis.removeUserRelations(user.getId()+"");
+		//下次进入就又用数据库取值了,所以可以在方法上cacheable()
+		List<UserRelation>  list = userRelationService.queryUserRelationByUser(user);
+		System.out.println(getInstance().writeValueAsString(list));
+		return getInstance().writeValueAsString(list);
 	}
 }
 

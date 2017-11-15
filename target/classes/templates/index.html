@@ -13,6 +13,7 @@
 	a:visited {color:#000000}	
 </style>
 <body>
+		<div >消息提醒</div>
 	<div th:if="${total!=null}">
 	<div>感谢你打赏<div  th:text="${total}">
 	元给作者 
@@ -20,7 +21,8 @@
 	</div>
 		<div th:if="${session.User}!=null"> 
 		<div th:text="${session.User.nickname} "> </div>
-		<div ><a  href="../"></a></div>
+		<input type="hidden"  th:attr="value=${session.User.id}"  id="userId" />
+		<div ><a  href="../index/delRemindersfriends.do"  id="RemindersPersonNumber"></a></div>
 		</div>
 		<div th:if="${session.User}==null"> 
 		<form action="/login/login.do" method="POST" id="loginform">
