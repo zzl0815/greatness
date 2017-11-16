@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,8 +31,9 @@ public class UserRelation {
 	@Column(name="create_date")
 	private String createDate;
 	@JsonIgnore
-	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE },mappedBy ="userRelation")
-	//更改type
+	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE },mappedBy ="userRelation",fetch=FetchType.LAZY	)
+	//不利用开发啊
+	//JPA不利于开发 ..  级联查询在聊天系统中是
 	private Set<Chat> chats;
 	@Column(name="is_agree")
 	private Integer isAgree;//0是未处理 1是同意 2是拒绝 

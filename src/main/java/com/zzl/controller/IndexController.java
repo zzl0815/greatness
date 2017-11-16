@@ -142,7 +142,7 @@ public class IndexController extends BaseController{
 		if(user!=null){
 			List<UserRelation> list =userRelationRedis.queryUserRelations(user.getId()+"");
 			if(list!=null){
-				System.out.println(getInstance().writeValueAsString(list));
+				System.out.println(getInstance().writeValueAsString(list)+"list::");
 				return getInstance().writeValueAsString(list);
 			}
 		}
@@ -156,7 +156,7 @@ public class IndexController extends BaseController{
 		//下次进入就又用数据库取值了,所以可以在方法上cacheable()
 		List<UserRelation>  list = userRelationService.queryUserRelationByUser(user);
 		System.out.println(getInstance().writeValueAsString(list));
-		return getInstance().writeValueAsString(list);
+		return getInstance().writeValueAsString(list); 
 	}
 }
 

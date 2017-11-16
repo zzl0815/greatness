@@ -29,9 +29,10 @@ public class UserRelationController extends BaseController {
 			){
 		UserRelation userrelation = new UserRelation();
 		User user =(User)request.getSession().getAttribute("User");
+		System.out.println(user.getId()+"userId"); 
 		User accepter = new  User();
 		accepter.setId(id);
-		userrelation.setAccepter(user);
+		userrelation.setAccepter(accepter);
 		userrelation.setSender(user);
 		userrelation.setCreateDate(new SimpleDateFormat(Common.DATEFORMAT).format(new Date()));
 		userrelation.setIsAgree(0);

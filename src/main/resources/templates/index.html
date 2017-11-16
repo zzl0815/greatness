@@ -22,7 +22,7 @@
 		<div th:if="${session.User}!=null"> 
 		<div th:text="${session.User.nickname} "> </div>
 		<input type="hidden"  th:attr="value=${session.User.id}"  id="userId" />
-		<div ><a  href="../index/delRemindersfriends.do"  id="RemindersPersonNumber"></a></div>
+		<div ><a  href="../index/delRemindersfriends.do"  id="RemindersPersonNumber" ></a></div>
 		</div>
 		<div th:if="${session.User}==null"> 
 		<form action="/login/login.do" method="POST" id="loginform">

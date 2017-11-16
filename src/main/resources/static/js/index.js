@@ -34,11 +34,15 @@ $(function(){
 		type:"GET",
 		sync:false,
 		success:function(data){
-			alert(data.length);
-			$("#RemindersPersonNumber").text(data.length);
 			var id = $("#userId").val();
+			alert(data.length+"Data.");
+			$("#RemindersPersonNumber").text(data.length);
+			
 			//如果是自己就给他按钮  如果不是就等待验证,
 			//改变数据库的内容
+			var html="";
+			for(var i = 0; i <data.length;i++){
+			}
 		}
 	})
 })

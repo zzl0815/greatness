@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,11 @@ public class UserRelationServimpl implements UserRelationService {
 		userRelationRedis.saveUserRelation(list);
 		return userRelation;
 	}
+	//key 和value 
 	@Override
+	@CachePut(value="queryUserRelation",key="queryUserRelationByUser#user.userName")
 	public List<UserRelation> queryUserRelationByUser(User user) {
-		return userRelationRepository.findBySenderOrAccepter(user, user);
+		List<UserRelation> list =userRelationRepository.findBySenderOrAccepter(user, user);
+		return list;
 	}
 }
