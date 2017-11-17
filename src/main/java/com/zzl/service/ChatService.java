@@ -8,6 +8,6 @@ import com.zzl.bean.Chat;
 import com.zzl.bean.User;
 
 public interface ChatService {
-	Chat save(Chat chat);
+	Chat save(Long id,Chat chat);
 	List<Chat> queryChat(User user,Pageable page);
 }

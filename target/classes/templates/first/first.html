@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <title>Insert title here</title>
+<script type="text/javascript" src="/jquery/jquery-3.2.0.js"></script>     
+<script type="text/javascript" src="/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/jquery/jquery.form.js"></script>   
+<script type="text/javascript" src="/js/first/first.js"></script>
 </head>
 <body>
-	first --->  用来实现聊天功能
-	聊天功能所需要的表
-	多对多-->用户对用户
-	//聊天记录要实现
-	//Socket编程  
-	点击聊天进入聊天界面
-	//利用反向AJAX技术实现用人跟你聊天 提醒功能
-	/
+	<!--好友功能-->
+	<div th:text="${session.User.id}"  id="userId"></div>
+	<div id="friendsList"></div>
 </body>
 </html>

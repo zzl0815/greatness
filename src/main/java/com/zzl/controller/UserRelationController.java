@@ -47,4 +47,13 @@ public class UserRelationController extends BaseController {
 		//在设计中最好是设计一个返回类 result  status  Object   Comment
 		return Common.SUCCESS;
 	}
+	@Transactional
+	@RequestMapping(value="updateIsAgreeById.do")
+	public String updateIsAgreeById(
+			@RequestParam("Id")Long id,
+			HttpServletRequest request
+			){
+		userRelationService.updateIsAgreeById(1, id);
+		return Common.SUCCESS;
+	}
 }

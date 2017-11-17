@@ -9,8 +9,10 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.zzl.bean.Chat;
 import com.zzl.bean.User;
 import com.zzl.bean.UserRelation;
+import com.zzl.bean.common.Common;
 import com.zzl.redis.UserRelationRedis;
 import com.zzl.repository.UserRelationRepository;
 import com.zzl.service.UserRelationService;
@@ -42,9 +44,24 @@ public class UserRelationServimpl implements UserRelationService {
 	}
 	//key 和value 
 	@Override
-	@CachePut(value="queryUserRelation",key="queryUserRelationByUser#user.userName")
+	@Cacheable(value="queryUserRelation",key="#user.userName")
 	public List<UserRelation> queryUserRelationByUser(User user) {
 		List<UserRelation> list =userRelationRepository.findBySenderOrAccepter(user, user);
 		return list;
 	}
+	@Override
+	public UserRelation findIdBySenderAndAccepterOr(User sender, User Accepter) {
+		return userRelationRepository.findIdBySenderAndAccepterOr(sender, Accepter);
+	}
+	@Override
+	@Cacheable(value="findchatBySenderAndAccepter",key="#userRelation.id")
+	public UserRelation findchatBySenderAndAccepter(UserRelation userRelation) {
+		return 	userRelationRepository.findchatBySenderAndAccepter(userRelation.getId());
+	}
+	@Override
+	public String updateIsAgreeById(Integer isAgress, Long id) {
+			userRelationRepository.updateIsAgreeById(isAgress, id);
+		return Common.SUCCESS;
+	}
+	
 }
